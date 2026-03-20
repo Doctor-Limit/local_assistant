@@ -75,7 +75,7 @@ class AssistantConfig:
                 setattr(self, key, value)
 
     def _load_from_env(self):
-        """加载环境变量，格式：{PREFIX}{KEY}，如 ASSISTANT_MODEL"""
+        """加载环境变量，格式：{PREFIX}{KEY}"""
         prefix = self.env_prefix.upper()
         for key in dir(self):
             if key.startswith('_') or key in ('env_prefix', 'role'):

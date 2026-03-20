@@ -29,7 +29,6 @@ class MemoryManager:
             self.load()
 
     def add(self, item: MemoryItem):
-        """添加一条记忆"""
         self.short_term.append(item)
         if self.memory_file:
             self.save()

@@ -8,7 +8,7 @@ def get_current_time(format: str = "%Y-%m-%d %H:%M:%S") -> str:
 
 def get_weather(city: str) -> str:
     """查询指定城市的天气（模拟）"""
-    # 这里可以接入真实天气 API，此处返回模拟数据
+    # 可以接入真实天气 API，目前此处返回模拟数据
     return f"{city} 的天气：晴，温度 22°C"
 
 def calculate(expression: str) -> float:
