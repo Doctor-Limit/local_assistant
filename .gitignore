@@ -28,8 +28,6 @@ memory.json
 state.json
 
 # 配置文件（包含本地路径或敏感信息）
-config.json
-config.ini
 .env
 
 # 日志文件

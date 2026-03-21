@@ -22,6 +22,11 @@ class AssistantConfig:
         self.rag_top_k = 3
         self.max_history = 10
         self.llm_num_ctx = 1024
+        # config.py 中 __init__ 方法增加
+        self.use_cloud_api = None
+        self.cloud_api_key = "sk-zyyvofcbfeksdbokvktwyyhxjpnuxvaxwdtxedheswotgeqs"
+        self.cloud_model = "Qwen/Qwen2.5-7B-Instruct"
+        self.cloud_base_url = "https://api.siliconflow.cn/v1/chat/completions"  # 硅基流动会话
 
         self.env_prefix = env_prefix
 

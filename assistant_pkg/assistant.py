@@ -176,19 +176,26 @@ class Assistant:
 
         t2 = time.time()
         # 6. 调用流式 LLM，边收集边输出
-        full_response = ""
         try:
+            full_response = ""
+            full_response_size = 20
             for chunk in self.llm.chat_stream(messages, tools=self.tools_def):
                 full_response += chunk
-                yield chunk
+                if len(full_response) >= full_response_size:
+                    yield full_response
+                    full_response = ""
+            if full_response:
+                yield full_response
         except Exception as e:
+            if full_response:
+                yield full_response
             error_msg = f"流式生成出错: {e}"
             print(error_msg)
             yield error_msg
             full_response = error_msg
 
         t3 = time.time()
-        print(f"LLM调用耗时：{t3 - t2:.2f}s")
+        print(f"\nLLM调用耗时：{t3 - t2:.2f}s")
 
         # 7. 记录助手回复到记忆
         self.memory.add(MemoryItem("assistant", full_response, time.time()))
