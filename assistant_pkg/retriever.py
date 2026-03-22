@@ -8,6 +8,7 @@ from typing import List
 class Retriever:
     def __init__(self, collection_name="java_knowledge", persist_directory="./chroma_db",
                  model_name="all-MiniLM-L6-v2"):
+        #paraphrase-multilingual-MiniLM-L12-v2 这个中文适配更好但是响应较慢
         self.client = chromadb.PersistentClient(path=persist_directory)
         self.embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=model_name)
         self.collection = self.client.get_or_create_collection(
