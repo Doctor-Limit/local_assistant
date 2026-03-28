@@ -1,0 +1,112 @@
+[
+  {
+    "timestamp": 1774539824.0912952,
+    "function": "Ti",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.9,
+    "new_confidence": 0.91
+  },
+  {
+    "timestamp": 1774540854.911237,
+    "function": "Ti",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.9,
+    "new_confidence": 0.91
+  },
+  {
+    "timestamp": 1774619807.0274875,
+    "function": "Ti",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.9,
+    "new_confidence": 0.91
+  },
+  {
+    "timestamp": 1774620554.9908085,
+    "function": "Ne",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.7,
+    "new_confidence": 0.71
+  },
+  {
+    "timestamp": 1774620619.1323361,
+    "function": "Si",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.82,
+    "new_confidence": 0.83
+  },
+  {
+    "timestamp": 1774620686.3693376,
+    "function": "Si",
+    "feedback": "like",
+    "delta": 0.01,
+    "context": "",
+    "question": "",
+    "answer": "",
+    "old_confidence": 0.83,
+    "new_confidence": 0.84
+  },
+  {
+    "timestamp": 1774661164.2764282,
+    "function": "Ti",
+    "feedback": "like",
+    "delta": 0.05,
+    "context": "用户对解释风格给予正面反馈",
+    "question": "我没有钱怎么办",
+    "answer": "没有钱的时候，我们可以从多个角度来考虑解决问题。\n\n首先，我们需要分析为什么会没有钱。是收入不稳定、支出过大还是其他原因呢？根据不同的原因，我们可以采取不同的措施。比如，如果是收入不稳定，我们可以考虑",
+    "old_confidence": 0.9,
+    "new_confidence": 0.9500000000000001
+  },
+  {
+    "timestamp": 1774661877.2508116,
+    "function": "Ti",
+    "feedback": "like",
+    "delta": 0.05,
+    "context": "用户对解释风格给予正面反馈",
+    "question": "我没钱怎么办",
+    "answer": "如果没有足够的经济资源，可以尝试以下几种方法：\n1. 制定合理的预算计划，控制不必要的开支。\n2. 寻找更多的兼职或灵活工作机会，增加收入来源。\n3. 申请政府或社会提供的援助项目，比如低收入家庭补助",
+    "old_confidence": 0.9,
+    "new_confidence": 0.9500000000000001
+  },
+  {
+    "timestamp": 1774666782.666677,
+    "function": "Si",
+    "feedback": "like",
+    "delta": 0.05,
+    "context": "用户对解释风格给予正面反馈",
+    "question": "我没钱怎么办",
+    "answer": "没钱可能是因为收入不足或支出过多，解决这个问题可以从以下几个方面考虑：首先，可以通过增加收入，比如寻找兼职工作或提升职业技能提高薪资；其次，可以通过合理规划支出，比如减少不必要的开支，制定预算计划；最",
+    "old_confidence": 0.9,
+    "new_confidence": 0.9500000000000001
+  },
+  {
+    "timestamp": 1774682245.217648,
+    "function": "Ti",
+    "feedback": "dislike",
+    "delta": -0.03,
+    "context": "用户对解释风格给予负面反馈",
+    "question": "为什么 HashMap 线程不安全？",
+    "answer": "HashMap 线程不安全的原因在于其内部实现机制。在并发执行put操作时，如果没有适当的同步机制，可能会导致形成循环链表，从而引起死循环。这是因为HashMap在处理哈希碰撞时，使用链地址法（即通过",
+    "old_confidence": 0.9,
+    "new_confidence": 0.87
+  }
+]

@@ -1,7 +1,7 @@
 {
-    "name": "小灵",
+    "name": "小莲",
     "personality": "温柔细心",
-    "model": "qwen2.5:1.b",
+    "model": "qwen2.5:1.5b",
     "ollama_url": "http://localhost:11434",
     "temperature": 0.7,
     "max_tokens": 2000,
@@ -11,5 +11,6 @@
     "knowledge_file": "test_rag.txt",
     "rag_top_k": 3,
     "max_history": 10,
-    "llm_num_ctx": 1024
+    "llm_num_ctx": 1024,
+    "use_cloud_api": false
 }

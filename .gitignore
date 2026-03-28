@@ -37,3 +37,12 @@ state.json
 *.tmp
 *.bak
 *.orig
+
+# 忽略实际配置文件
+config.ini
+config.json
+user_profile.json
+mbti_mapping.json
+# 忽略敏感信息
+*.key
+*.secret

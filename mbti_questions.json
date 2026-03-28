@@ -1,0 +1,32 @@
+{
+  "questions": [
+     {
+      "text": "1. 你更倾向于：",
+      "options": [
+        { "text": "安静思考", "dimension": "I" },
+        { "text": "积极社交", "dimension": "E" }
+      ]
+    },
+    {
+      "text": "2. 你更喜欢：",
+      "options": [
+        { "text": "专注于具体事实和细节", "dimension": "S" },
+        { "text": "关注整体模式和可能性", "dimension": "N" }
+      ]
+    },
+    {
+      "text": "3. 你做决定时更依赖：",
+      "options": [
+        { "text": "逻辑分析", "dimension": "T" },
+        { "text": "个人价值观", "dimension": "F" }
+      ]
+    },
+    {
+      "text": "4. 你通常：",
+      "options": [
+        { "text": "计划并遵守日程", "dimension": "J" },
+        { "text": "灵活适应变化", "dimension": "P" }
+      ]
+    }
+  ]
+}

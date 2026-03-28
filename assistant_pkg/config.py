@@ -3,16 +3,18 @@ import json
 import os
 import configparser
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()  # 读取 .env 文件中的变量
 
 class AssistantConfig:
     def __init__(self, config_path=None, env_prefix="ASSISTANT_"):
         # 默认配置
-        self.name = "小灵"
+        self.name = "小莲"
         self.personality = "温柔细心"
         self.model = "qwen2.5:1.5b"
         self.ollama_url = "http://localhost:11434"
         self.temperature = 0.7
-        self.max_tokens = 2000
+        self.max_tokens = 500
         self.memory_size = 50
         self.memory_file = None
         self.state_file = None
@@ -20,15 +22,23 @@ class AssistantConfig:
         self.rag_enable = True
         self.knowledge_file = "test_rag.txt"
         self.rag_top_k = 3
-        self.max_history = 10
+        self.max_history = 6
         self.llm_num_ctx = 1024
-        # config.py 中 __init__ 方法增加
-        self.use_cloud_api = None
-        self.cloud_api_key = "sk-zyyvofcbfeksdbokvktwyyhxjpnuxvaxwdtxedheswotgeqs"
+        self.use_cloud_api = True
+        self.cloud_api_key = os.environ.get("ASSISTANT_CLOUD_API_KEY", "")
         self.cloud_model = "Qwen/Qwen2.5-7B-Instruct"
         self.cloud_base_url = "https://api.siliconflow.cn/v1/chat/completions"  # 硅基流动会话
 
         self.env_prefix = env_prefix
+        self.merge_explanation = False #是否将答案与解释合并为同一调用,对模型要求高,不适合开启
+        self.llm_timeout = 60
+
+        self.use_hybrid_retrieval = True  # 启用混合检索
+        self.use_reranking = True  # 启用重排序
+        self.query_rewrite = True  # 启用查询改写
+        self.embedding_model = "all-MiniLM-L6-v2"
+
+        self.use_few_shot_examples = True
 
         # 如果提供了配置文件，先加载
         if config_path:
@@ -39,6 +49,11 @@ class AssistantConfig:
 
         # 更新 role
         self.role = f"你是{self.name}，一个{self.personality}的本地助手。请用中文回答。"
+
+        # 如果云端 API Key 未设置且使用云端，给出警告
+        if self.use_cloud_api and not self.cloud_api_key:
+            print("警告：未设置云端 API Key (ASSISTANT_CLOUD_API_KEY)，将回退到本地 Ollama 模式。")
+            self.use_cloud_api = False
 
     def _load_from_file(self, config_path):
         path = Path(config_path)
