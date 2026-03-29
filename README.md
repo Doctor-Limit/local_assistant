@@ -1,140 +1,190 @@
-# 🧠 Local LLM Assistant
+# 透明智能体：一个可验证、可调节、可解释的AI助手
 
-> **在线体验**：[http://43.132.194.13:8501](http://43.132.194.13:8501)  
-> **GitHub**：[https://github.com/Doctor-Limit/local_assistant](https://github.com/Doctor-Limit/local_assistant)
+> **“我能不能亲手验证AI在想什么？——现在，你可以了。”**
 
-一个基于本地大模型的模块化智能体框架。支持多轮对话、检索增强生成（RAG）和工具调用，全部运行在本地（通过 Ollama + Qwen2.5），无需依赖外部 API。  
-项目已部署至云服务器，可在线体验。
+这是一个从赌约开始的荒诞项目。为了回应一个AI的挑衅，我赌气搭建了这个智能体，却发现我们真正需要的，是一个每一步都敢说“为什么”的透明助手。
 
-**项目状态**：积极开发中，核心功能已可用，正在持续优化性能和稳定性。
+它会把记忆像档案一样给你翻看，会让AI的性格变成一堆可拧的旋钮，会把解释分成三个层次——从“一句话结论”到“完整推理链”再到“连底裤都给你看的JSON”。它可能不够“像人”，但它敢说：“我为什么这么想。”
 
----
-
-## ✨ 当前功能
-
-- ✅ 本地模型部署（Ollama + Qwen2.5 1.5B 量化版）
-- ✅ 模块化架构：记忆管理、规则引擎、状态控制、LLM 引擎等
-- ✅ 多轮对话（上下文记忆）
-- ✅ 检索增强生成（RAG）：基于本地知识库回答问题，响应时间已优化至 3 秒内
-- ✅ 流式输出（逐字返回，提升体验）
-- ✅ 基础工具调用（天气、时间、计算、安全命令）
-- ✅ 通过 Streamlit 提供 Web 界面
-- ✅ 支持云端 API 一键切换（如硅基流动）
+**在线演示**：[http://43.132.194.13:8501/](http://43.132.194.13:8501/)（节点在香港，如果没崩的话）  
+**GitHub仓库**：[https://github.com/Doctor-Limit/local_assistant](https://github.com/Doctor-Limit/local_assistant)
 
 ---
 
-## 🛠️ 技术栈
+## 🧠 核心功能
 
-- **模型部署**：Ollama + Qwen2.5:1.5b
-- **后端**：Python 3.10+，Streamlit
-- **检索**：ChromaDB 向量数据库 + sentence-transformers（all-MiniLM-L6-v2）
-- **容器化**：Docker（可选）
+- **可追溯的记忆**  
+  每条记忆都有唯一ID，侧边栏列出所有记忆，点击即可查看完整内容。AI引用记忆时必须带上ID，是真是假，一看便知。
 
----
+- **可调节的画像**  
+  基于荣格八维认知功能（Ti, Te, Fi, Fe, Si, Se, Ni, Ne），每个功能配有0~1的滑块。你拖一拖，AI的回答风格立马改变——从数学老师般的逻辑推导，到温柔的情感共情，随你定义。
 
-## 📦 项目结构
+- **分层次的解释**  
+  - **简洁型**：一句话结论，适合只想快速知道结果的人。  
+  - **逻辑型**：完整推理步骤 + Mermaid流程图，适合想理解“为什么”的人。  
+  - **调试型**：完整JSON，包含置信度、引用来源、工具调用记录，适合开发者。
 
-local_assistant/
-├── assistant_pkg/ # 核心模块
-│ ├── assistant.py # 主控制器
-│ ├── config.py # 配置管理
-│ ├── llm.py # LLM 引擎（Ollama/云端）
-│ ├── memory.py # 记忆管理
-│ ├── retriever.py # RAG 检索（ChromaDB）
-│ ├── rules.py # 规则引擎
-│ ├── state.py # 状态管理
-│ ├── tools.py # 工具函数
-│ └── response.py # 响应生成器
-├── app_streamlit.py # Streamlit Web 界面
-├── main.py # 命令行交互
-├── test_rag.txt # 示例知识库（Java 八股文）
-├── requirements.txt
-└── README.md
+- **RAG检索增强**  
+  支持向量检索、混合检索（向量+TF‑IDF）、重排序（Cross‑Encoder）。技术类问题会自动检索知识库，给出有据可依的回答。
 
+- **工具调用**  
+  内置天气、时间、计算、安全命令等工具，支持多轮调用（例如“先查北京天气，再计算25*4”）。
 
----
+- **长期记忆与反馈学习**  
+  高置信度记忆自动存入长期记忆（ChromaDB），支持语义检索。点赞/点踩会实时调整认知功能置信度，画像会逐渐贴近你的偏好。
 
-## ⚙️ 配置
-
-可通过 `config.json` 或环境变量（前缀 `ASSISTANT_`）修改配置。主要配置项如下：
-
-| 配置项 | 说明 | 默认值 |
-|--------|------|--------|
-| `model` | Ollama 模型名称 | `qwen2.5:1.5b` |
-| `temperature` | 生成温度 | `0.7` |
-| `rag_enable` | 是否启用 RAG | `True` |
-| `knowledge_file` | 知识库文件路径 | `test_rag.txt` |
-| `rag_top_k` | 检索返回的文档数 | `3` |
-| `memory_size` | 记忆窗口大小 | `50` |
-| `use_cloud_api` | 是否使用云端 API | `False` |
-| `cloud_api_key` | 云端 API 密钥 | （需自行填写） |
-| `cloud_model` | 云端模型名称 | `Qwen/Qwen2.5-7B-Instruct` |
-
-详细配置见 `assistant_pkg/config.py`。
+- **多模式体验**  
+  侧边栏提供MBTI初始测试、手动调整认知功能、查看反馈记录、检索长期记忆、查看记忆详情等，交互友好。
 
 ---
 
 ## 🚀 快速开始
 
-### 环境要求
-- Python 3.10+
-- Ollama 已安装并运行（[ollama.com](https://ollama.com)）
-- 拉取模型：`ollama pull qwen2.5:1.5b-instruct-q4_0`
-
-### 安装与运行
+### 1. 克隆仓库
 ```bash
 git clone https://github.com/Doctor-Limit/local_assistant.git
 cd local_assistant
-pip install -r requirements.txt
-streamlit run app_streamlit.py
-
-访问终端显示的本地地址（如 http://localhost:8501）即可开始对话。
 ```
 
-#💡 使用示例
-Web 界面
-
-输入问题，助手会流式返回答案。
-
-若启用 RAG，会自动检索知识库相关内容（示例知识库为 Java 八股文）。
-
-工具调用示例
-
-时间：现在几点？
-
-天气：北京天气
-
-计算：计算 25*4+3
-
-安全命令：执行 ls（仅限白名单命令）
-
-❓ 常见问题
-
-首次运行很慢？
-
-Ollama 首次加载模型需要几秒，后续对话会很快。可设置模型常驻内存：
+### 2. 安装依赖
 ```bash
-ollama serve --keep-alive 600
+pip install -r requirements.txt
+```
+*注：`requirements.txt` 尚未提供，请根据 `import` 手动安装主要包：*
+- `streamlit`
+- `chromadb`
+- `sentence-transformers`
+- `cachetools`
+- `scikit-learn`（可选，用于混合检索）
+- `requests`
+- `python-dotenv`
+- `simpleeval`
+
+### 3. 配置API（默认使用云端硅基流动API）
+项目根目录下新建 `.env`，填入你的 `ASSISTANT_CLOUD_API_KEY`。  
+若想使用本地Ollama，修改 `config.py` 中 `use_cloud_api = False`，并确保Ollama已启动，模型为 `qwen2.5:1.5b`。
+
+### 4. 运行
+```bash
+streamlit run app_streamlit.py
 ```
 
-知识库如何更新？
-将文本文件（按空行或 Q： 格式分割）放入 knowledge_file 指定路径，程序启动时自动加载。如需动态添加，可调用 Retriever.add_documents() 方法。
-
-如何切换云端模型？
-在 config.py 中设置 use_cloud_api = True，并配置 cloud_api_key 和 cloud_base_url（OpenAI 兼容格式）。目前支持硅基流动等平台。
-
-偶尔响应失败或超时？
-可能是本地模型加载延迟或资源不足。建议增加 timeout 设置，或保持模型常驻内存。若问题持续，请提交 Issue。
-
-## 🚧 下一步计划
-
-- **可解释AI**：尝试实现工具调用解释、RAG检索解释、最终答案置信度/依据、对话链可视化。
-- **复杂语句工具调用**：当前在用户意图模糊或多步推理时，模型可能无法正确触发工具；计划通过 **few-shot 示例** 和 **function calling 强化** 来优化。
-- **RAG 检索精度**：目前使用 ChromaDB + 句子向量，偶有检索不相关结果；下一步引入 **query 改写**、**重排序（reranking）** 提升准确性。
-- **多实例并发**：当前为单线程，暂不支持高并发；后续将引入异步处理与多进程支持。
-- **记忆持久化**：短期记忆已实现，长期记忆计划采用 **向量数据库 + 摘要** 方式存储。
+浏览器会自动打开 `http://localhost:8501`。首次加载需要下载嵌入模型（约30秒），之后即可开始对话。
 
 ---
 
-🤝 贡献
-欢迎提交 Issue 和 Pull Request。开发前请确保代码通过基础测试，并遵循现有代码风格。
+## 📖 使用指南
+
+### 初始化画像
+首次打开会要求完成简易MBTI测试，只需选择几个描述，系统会初始化认知功能置信度。你也可以直接“跳过”，使用默认INTP画像。
+
+### 调整AI风格
+侧边栏 → “✏️ 手动调整认知功能”，拖动滑块即可实时改变各功能权重。AI会优先选择置信度最高的功能来回答。
+
+### 选择解释模式
+侧边栏 → “解释模式”，可选简洁型、逻辑型、调试型。逻辑型会显示Mermaid流程图，调试型可下载JSON。
+
+### 查看记忆
+侧边栏 → “记忆库” → “短期记忆”，点击“查看”可弹窗显示完整内容。在对话中，AI引用记忆时会带上ID，你可以直接点击验证。
+
+### 反馈与校准
+每轮对话下方有“有帮助/没帮助”按钮，点击后会调整对应认知功能的置信度。侧边栏的“反馈与校准”区域可查看历史反馈，并一键基于近期反馈重新校准画像。
+
+### 示例问题
+界面上方有四个示例按钮：  
+- “石头剪刀布策略”  
+- “HashMap 线程安全”  
+- “电车难题”  
+- “工作选择”  
+
+点击即可快速体验不同风格的回答。
+
+---
+
+## 🗂 项目结构
+
+```
+local_assistant/
+├── app_streamlit.py            # Streamlit 主界面
+├── assistant_pkg/              # 核心模块
+│   ├── assistant.py            # 助手主控制器
+│   ├── user_profile.py         # 用户画像（MBTI + 认知功能）
+│   ├── memory.py               # 短期/长期记忆管理
+│   ├── retriever.py            # RAG检索器（向量、混合、重排序）
+│   ├── llm.py                  # LLM引擎（云端/Ollama）
+│   ├── explainer.py            # 解释生成器（自然语言 + 推理链）
+│   ├── explanation_router.py   # 解释路由（风格选择）
+│   ├── answer_explanation_generator.py  # 答案+解释合并生成
+│   ├── response.py             # 工具调用响应处理
+│   ├── tools.py                # 注册的工具函数
+│   ├── config.py               # 配置管理
+│   ├── rules.py                # 规则引擎
+│   ├── state.py                # 状态管理
+│   └── cache.py                # 解释缓存
+├── chroma_db/                  # ChromaDB持久化目录
+├── test_rag.txt                # 示例知识库
+├── mbti_mapping.json           # MBTI→认知功能映射
+├── few_shot_examples.json      # Few-shot示例（工具调用）
+├── style_examples.json         # 风格示例（场景匹配）
+└── .env                        # 环境变量（API Key）
+```
+
+---
+
+## ⚙️ 技术栈
+
+- **前端**：Streamlit
+- **后端**：Python
+- **向量数据库**：ChromaDB
+- **嵌入模型**：sentence-transformers/all-MiniLM-L6-v2
+- **重排序**：cross-encoder/ms-marco-MiniLM-L-6-v2
+- **LLM**：硅基流动 API（Qwen2.5-7B） 或 本地 Ollama（Qwen2.5:1.5B）
+- **记忆检索**：TF‑IDF（可选）+ 余弦相似度
+
+---
+
+## 🔮 当前限制与未来计划
+
+### 已知问题
+- 差异化风格体现不够明显，有时不同认知功能回答相似。
+- 复杂语句工具调用不稳定，多步推理易出错。
+- 仅支持单用户会话，无并发。
+- 记忆提炼较粗糙，跨会话知识保留不够准确。
+- 机械解释（权重可视化）暂不支持。
+- 长时间对话可能存在迎合倾向。
+- 用户反馈尚未用于模型训练，仅用于置信度调整。
+
+### 下一步计划
+- 引入元认知自省，让AI反思“我是不是在迎合”。
+- 模块化重构，参考CIRISAgent等架构。
+- 增加消息队列支持多实例并发。
+- 优化记忆提炼算法。
+- 探索特征归因可视化（如SHAP）。
+
+---
+
+## 🤝 贡献与反馈
+
+欢迎提交Issue报告问题或建议。暂不接受PR（代码还能跑，怕一改就崩），但如果你有好的想法，欢迎在Issue中讨论。
+
+**GitHub Issue**：[https://github.com/Doctor-Limit/local_assistant/issues](https://github.com/Doctor-Limit/local_assistant/issues)
+
+---
+
+## 📄 许可
+
+本项目遵循 MIT 协议（请根据实际情况添加许可证文件）。
+
+---
+
+## 🙏 致谢
+
+- 荣格八维理论，以及所有在可解释AI领域探索的研究者。
+- 硅基流动提供的云端API服务。
+- 开源社区的所有工具与库。
+
+---
+
+**最后，回到最初那个问题：“我能不能亲手验证AI在想什么？”**
+
+——现在，你可以了。
